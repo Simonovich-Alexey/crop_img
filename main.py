@@ -20,14 +20,18 @@ def crop(*size):
         for i in file_list:
             try:
                 with Image.open(f'{path_input}\\{i}') as img:
-                    ImageOps.fit(img, size).save(f'{path_output}\\{i}')
+                    if img.size[0] > img.size[1] or img.size[0] == img.size[1]:
+                        ImageOps.fit(img, size).save(f'{path_output}\\{i}')
+                    else:
+                        ImageOps.pad(img, size, color='#000').save(f'{path_output}\\{i}')
             except OSError:
                 print('Что-то пошло не так!')
 
-            os.remove(f'{path_input}\\{i}')
+            # os.remove(f'{path_input}\\{i}')
 
     else:
-        print('Дириктория пустая')
+        print('Дириктория пустая.'
+              '\nДобавте картинки, которые требуется преобразовать, в папку "input_img"')
 
 
 if __name__ == '__main__':
